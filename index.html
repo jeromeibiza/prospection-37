@@ -203,17 +203,17 @@
    STATUT DU PROJET  —  l'agent master édite cet objet
    ========================================================= */
 const STATUS = {
-  updated: "13 juin 2026 · 17:25",
+  updated: "13 juin 2026 · 17:40",
   phases: [
     { name:"Cadrage & specs (équipe d'agents)", desc:"5/6 spécialistes livrés ✓ — l'agent Places a figé, repris en direct par le master", pct:100, state:"done", icon:"🧠" },
     { name:"War Room (ce tableau de bord)",       desc:"Cockpit partageable, en ligne, mis à jour en continu",   pct:100, state:"done", icon:"🛰️" },
     { name:"Plateforme CRM (tableau + Kanban)",   desc:"8 étapes, filtres secteur/ville, drag&drop, import/export CSV — EN LIGNE ✓", pct:100, state:"done", icon:"🗂️" },
-    { name:"Script de collecte Google Places",     desc:"Balayage des communes du 37, détection « sans site »", pct:0, state:"wait", icon:"🛰️" },
-    { name:"Réconciliation & contrôle qualité",    desc:"Dédup, normalisation tél/adresse, zéro faux lead",   pct:0, state:"wait", icon:"🧪" },
-    { name:"Revue pro + fiche RGPD + prise en main",desc:"Relecture experte, conformité, guide Jean Samuel",   pct:0, state:"wait", icon:"✅" },
+    { name:"Script de collecte Google Places",     desc:"Balayage communes 37, détection « sans site », cache, dry-run — testé ✓", pct:100, state:"done", icon:"🛰️" },
+    { name:"Réconciliation & contrôle qualité",    desc:"Dédup par place_id + nom/ville, BOM Excel, champs à enrichir balisés", pct:100, state:"done", icon:"🧪" },
+    { name:"Fiche RGPD + guide de prise en main",  desc:"README complet + panneau RGPD intégré au CRM",         pct:100, state:"done", icon:"✅" },
   ],
   team: [
-    { nm:"Master (orchestrateur)", rl:"Pilote l'équipe, code et intègre", av:"🎛️", state:"run" },
+    { nm:"Master (orchestrateur)", rl:"Pilote l'équipe, code et intègre", av:"🎛️", state:"done" },
     { nm:"UX/UI Engineer",         rl:"Ergonomie tableau + Kanban",        av:"🎨", state:"done" },
     { nm:"Designer",               rl:"Design system, identité visuelle",  av:"🖌️", state:"done" },
     { nm:"Backend / Data Architect",rl:"Modèle de données, schéma CSV",    av:"🧱", state:"done" },
@@ -225,8 +225,8 @@ const STATUS = {
     { t:"War Room de suivi", s:"Ce tableau de bord, en ligne", state:"done", link:null },
     { t:"Specs & blueprint", s:"Décisions techniques verrouillées (design + prospection + RGPD)", state:"done", link:null },
     { t:"CRM — Tableau + Kanban", s:"8 étapes · filtres · drag&drop · import CSV", state:"done", link:"crm.html" },
-    { t:"Script collecte Google Places", s:"collecte-places.js — prochain", state:"run", link:null },
-    { t:"Fiche RGPD + guide de prise en main", s:"pour Jean Samuel (à venir)", state:"wait", link:null },
+    { t:"Script collecte Google Places", s:"collecte-places.js — testé (dry-run OK)", state:"done", link:null },
+    { t:"Fiche RGPD + guide de prise en main", s:"README + panneau RGPD dans le CRM", state:"done", link:null },
   ],
   scope: { communesTotal: 272, vague1: "Tours + agglo" }
 };
