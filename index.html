@@ -137,6 +137,7 @@
       </div>
     </div>
     <div class="live">
+      <a class="pill" href="crm.html" style="background:linear-gradient(135deg,var(--primary2),var(--violet));color:#fff;border:none;font-weight:700;text-decoration:none">🗂️ Ouvrir le CRM</a>
       <span class="pill"><span class="dot"></span> EN DIRECT</span>
       <span class="pill">🕒 <span class="clock" id="clock">--:--:--</span></span>
     </div>
@@ -150,7 +151,7 @@
     <div>
       <div class="card mission">
         <h2><span class="ic">🧭</span> Mission &amp; périmètre</h2>
-        <p>Construire l'outil qui permet à ton stagiaire de <b style="color:#fff">prospecter les TPE/commerces locaux qui n'ont pas de site web</b> (ou seulement un Facebook/Instagram) pour leur en vendre un.</p>
+        <p>Construire l'outil qui permet à <b style="color:#fff">Jean Samuel</b> 🧠 <span style="color:var(--accent)">(le ptit génie)</span> de <b style="color:#fff">prospecter les TPE/commerces locaux qui n'ont pas de site web</b> (ou seulement un Facebook/Instagram) pour leur en vendre un.</p>
         <div class="chips">
           <span class="chip">📍 Département <b>Indre-et-Loire (37)</b></span>
           <span class="chip">🚀 Vague 1 : <b>Tours + agglo</b></span>
@@ -182,7 +183,7 @@
 
   <!-- ===== Stagiaire ===== -->
   <div class="card">
-    <h2><span class="ic">🧑‍💼</span> Côté stagiaire — à préparer en parallèle</h2>
+    <h2><span class="ic">🧑‍💼</span> Côté Jean Samuel 🧠 (le ptit génie) — à préparer en parallèle</h2>
     <ol class="todo">
       <li>Créer un <b>compte Google Cloud</b> + activer la <b>Places API (New)</b> et générer une <b>clé API</b> (crédit gratuit ~200&nbsp;$/mois, large pour démarrer sur Tours).</li>
       <li>Préparer un <b>pitch de 20 secondes</b> : « j'ai vu que vous n'avez pas de site, je crée des sites simples pour les commerces du coin… »</li>
@@ -202,30 +203,30 @@
    STATUT DU PROJET  —  l'agent master édite cet objet
    ========================================================= */
 const STATUS = {
-  updated: "13 juin 2026 · 18:00",
+  updated: "13 juin 2026 · 17:25",
   phases: [
-    { name:"Cadrage & specs (équipe d'agents)", desc:"6 spécialistes en parallèle → blueprint consolidé", pct:45, state:"run", icon:"🧠" },
-    { name:"War Room (ce tableau de bord)",       desc:"Cockpit partageable de suivi du projet",            pct:100, state:"done", icon:"🛰️" },
-    { name:"Plateforme CRM (tableau + Kanban)",   desc:"Fichier HTML autonome, filtres secteur/ville, drag&drop", pct:0, state:"wait", icon:"🗂️" },
+    { name:"Cadrage & specs (équipe d'agents)", desc:"5/6 spécialistes livrés ✓ — l'agent Places a figé, repris en direct par le master", pct:100, state:"done", icon:"🧠" },
+    { name:"War Room (ce tableau de bord)",       desc:"Cockpit partageable, en ligne, mis à jour en continu",   pct:100, state:"done", icon:"🛰️" },
+    { name:"Plateforme CRM (tableau + Kanban)",   desc:"8 étapes, filtres secteur/ville, drag&drop, import/export CSV — EN LIGNE ✓", pct:100, state:"done", icon:"🗂️" },
     { name:"Script de collecte Google Places",     desc:"Balayage des communes du 37, détection « sans site »", pct:0, state:"wait", icon:"🛰️" },
     { name:"Réconciliation & contrôle qualité",    desc:"Dédup, normalisation tél/adresse, zéro faux lead",   pct:0, state:"wait", icon:"🧪" },
-    { name:"Revue pro + fiche RGPD + prise en main",desc:"Relecture experte, conformité, guide stagiaire",     pct:0, state:"wait", icon:"✅" },
+    { name:"Revue pro + fiche RGPD + prise en main",desc:"Relecture experte, conformité, guide Jean Samuel",   pct:0, state:"wait", icon:"✅" },
   ],
   team: [
     { nm:"Master (orchestrateur)", rl:"Pilote l'équipe, code et intègre", av:"🎛️", state:"run" },
-    { nm:"UX/UI Engineer",         rl:"Ergonomie tableau + Kanban",        av:"🎨", state:"run" },
-    { nm:"Designer",               rl:"Design system, identité visuelle",  av:"🖌️", state:"run" },
-    { nm:"Backend / Data Architect",rl:"Modèle de données, schéma CSV",    av:"🧱", state:"run" },
-    { nm:"Expert Prospection B2B", rl:"Étapes Kanban, RGPD, séquence d'appel", av:"📣", state:"run" },
-    { nm:"Spécialiste Google Places",rl:"Architecture du script de collecte", av:"🛰️", state:"run" },
-    { nm:"Data Réconciliateur",    rl:"Dédup, qualité, zéro doublon",      av:"🧪", state:"run" },
+    { nm:"UX/UI Engineer",         rl:"Ergonomie tableau + Kanban",        av:"🎨", state:"done" },
+    { nm:"Designer",               rl:"Design system, identité visuelle",  av:"🖌️", state:"done" },
+    { nm:"Backend / Data Architect",rl:"Modèle de données, schéma CSV",    av:"🧱", state:"done" },
+    { nm:"Expert Prospection B2B", rl:"8 étapes Kanban, RGPD, séquence d'appel", av:"📣", state:"done" },
+    { nm:"Spécialiste Google Places",rl:"Agent figé → repris par le master", av:"🛰️", state:"done" },
+    { nm:"Data Réconciliateur",    rl:"Dédup, qualité, zéro doublon",      av:"🧪", state:"done" },
   ],
   deliverables: [
-    { t:"War Room de suivi", s:"Ce tableau de bord, partageable", state:"done", link:null },
-    { t:"Specs & blueprint", s:"Décisions techniques verrouillées", state:"run", link:null },
-    { t:"CRM — Tableau + Kanban", s:"crm.html (à venir)", state:"wait", link:null },
-    { t:"Script collecte Google Places", s:"collecte-places.js (à venir)", state:"wait", link:null },
-    { t:"Fiche RGPD + guide de prise en main", s:"pour le stagiaire (à venir)", state:"wait", link:null },
+    { t:"War Room de suivi", s:"Ce tableau de bord, en ligne", state:"done", link:null },
+    { t:"Specs & blueprint", s:"Décisions techniques verrouillées (design + prospection + RGPD)", state:"done", link:null },
+    { t:"CRM — Tableau + Kanban", s:"8 étapes · filtres · drag&drop · import CSV", state:"done", link:"crm.html" },
+    { t:"Script collecte Google Places", s:"collecte-places.js — prochain", state:"run", link:null },
+    { t:"Fiche RGPD + guide de prise en main", s:"pour Jean Samuel (à venir)", state:"wait", link:null },
   ],
   scope: { communesTotal: 272, vague1: "Tours + agglo" }
 };
