@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>War Room — Prospection Indre-et-Loire (37)</title>
+<style>
+  :root{
+    --bg:#0a0e16; --bg2:#0d1320; --surface:#141c2b; --surface2:#1a2334;
+    --border:#243049; --border2:#2e3c5a;
+    --primary:#38bdf8; --primary2:#3b82f6; --violet:#8b5cf6;
+    --success:#22c55e; --warning:#f59e0b; --danger:#ef4444; --idle:#64748b;
+    --text:#e8eef7; --muted:#94a3b8; --muted2:#64748b;
+    --radius:16px; --shadow:0 8px 30px rgba(0,0,0,.45);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"SFMono-Regular",ui-monospace,"Cascadia Code","Consolas",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:
+     radial-gradient(1200px 600px at 80% -10%, rgba(59,130,246,.10), transparent 60%),
+     radial-gradient(900px 500px at 0% 0%, rgba(139,92,246,.08), transparent 55%),
+     var(--bg);
+     color:var(--text);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+  body{padding:28px 22px 60px;max-width:1240px;margin:0 auto}
+  a{color:var(--primary);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ===== Header ===== */
+  .topbar{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;margin-bottom:26px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px;
+    background:linear-gradient(135deg,var(--primary2),var(--violet));box-shadow:0 6px 20px rgba(59,130,246,.35)}
+  .brand h1{font-size:20px;letter-spacing:.3px;line-height:1.15}
+  .brand .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .live{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);
+    padding:8px 14px;border-radius:999px;font-size:13px;color:var(--muted)}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--success);box-shadow:0 0 0 0 rgba(34,197,94,.7);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 9px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+  .clock{font-family:var(--mono);color:var(--text);font-size:13px}
+
+  /* ===== KPI row ===== */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+  .kpi{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--border);
+    border-radius:var(--radius);padding:18px 18px 16px;position:relative;overflow:hidden}
+  .kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+  .kpi .val{font-size:30px;font-weight:700;margin-top:8px;letter-spacing:.5px}
+  .kpi .hint{color:var(--muted2);font-size:12px;margin-top:4px}
+  .kpi .ring{position:absolute;right:16px;top:16px}
+
+  .grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+  @media(max-width:960px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+
+  .card{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--border);
+    border-radius:var(--radius);padding:20px 20px 18px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .card h2{font-size:15px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;
+    display:flex;align-items:center;gap:9px}
+  .card h2 .ic{font-size:16px}
+
+  /* ===== Mission ===== */
+  .mission p{color:#cdd8ea;font-size:14.5px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{background:var(--surface2);border:1px solid var(--border2);color:#c9d6ec;font-size:12.5px;
+    padding:6px 11px;border-radius:8px}
+  .chip b{color:var(--primary)}
+
+  /* ===== Roadmap ===== */
+  .phase{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed var(--border)}
+  .phase:last-child{border-bottom:none}
+  .phase .marker{flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:16px;
+    border:1px solid var(--border2)}
+  .phase .body{flex:1;min-width:0}
+  .phase .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .phase .name{font-weight:600;font-size:14.5px}
+  .phase .desc{color:var(--muted);font-size:13px;margin-top:2px}
+  .bar{height:7px;border-radius:6px;background:#0e1626;border:1px solid var(--border);margin-top:9px;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--primary),var(--primary2))}
+  .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .b-done{background:rgba(34,197,94,.14);color:#6ee7a8;border:1px solid rgba(34,197,94,.3)}
+  .b-run{background:rgba(56,189,248,.14);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)}
+  .b-wait{background:rgba(100,116,139,.16);color:#9fb0c7;border:1px solid rgba(100,116,139,.3)}
+
+  /* ===== Team ===== */
+  .team{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:560px){.team{grid-template-columns:1fr}}
+  .agent{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px 14px;
+    display:flex;gap:11px;align-items:flex-start}
+  .agent .av{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex:0 0 auto;
+    background:linear-gradient(135deg,#1e293b,#28324a);border:1px solid var(--border2)}
+  .agent .nm{font-weight:600;font-size:13.5px}
+  .agent .rl{color:var(--muted);font-size:12px;margin-top:1px}
+  .agent .st{margin-top:6px;font-size:11px;display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+  .sdot{width:7px;height:7px;border-radius:50%}
+  .s-run{background:var(--primary)} .s-done{background:var(--success)} .s-wait{background:var(--idle)}
+
+  /* ===== Deliverables ===== */
+  .deliv{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .deliv li{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);
+    border-radius:11px;padding:12px 14px}
+  .deliv .check{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:13px;flex:0 0 auto;
+    border:1px solid var(--border2);color:var(--muted)}
+  .deliv .check.done{background:rgba(34,197,94,.16);color:#6ee7a8;border-color:rgba(34,197,94,.35)}
+  .deliv .check.run{background:rgba(56,189,248,.16);color:#7dd3fc;border-color:rgba(56,189,248,.35)}
+  .deliv .t{flex:1;min-width:0}
+  .deliv .t b{font-size:13.5px}
+  .deliv .t span{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+
+  /* ===== Stagiaire ===== */
+  .todo{counter-reset:t;list-style:none;display:flex;flex-direction:column;gap:10px}
+  .todo li{position:relative;padding-left:40px;color:#cdd8ea;font-size:13.5px}
+  .todo li::before{counter-increment:t;content:counter(t);position:absolute;left:0;top:-2px;width:26px;height:26px;
+    border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:700;color:#0a0e16;
+    background:linear-gradient(135deg,var(--primary),var(--primary2))}
+  .todo li b{color:#fff}
+
+  .note{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.28);border-radius:12px;padding:13px 15px;
+    color:#f5d9a8;font-size:13px;margin-top:6px}
+  .foot{margin-top:26px;color:var(--muted2);font-size:12px;text-align:center}
+  .foot code{font-family:var(--mono);color:var(--muted)}
+
+  /* progress ring */
+  .ringbox{display:flex;align-items:center;gap:16px}
+  svg.gauge{transform:rotate(-90deg)}
+  .gauge .track{stroke:#16202f}
+  .gauge .fill{stroke:url(#grad);stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+</style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🎯</div>
+      <div>
+        <h1>War Room — Prospection Indre-et-Loire&nbsp;(37)</h1>
+        <div class="sub">Détection des entreprises locales <b style="color:#cdd8ea">sans site web</b> · CRM + collecte Google Places</div>
+      </div>
+    </div>
+    <div class="live">
+      <span class="pill"><span class="dot"></span> EN DIRECT</span>
+      <span class="pill">🕒 <span class="clock" id="clock">--:--:--</span></span>
+    </div>
+  </div>
+
+  <!-- ===== KPIs ===== -->
+  <div class="kpis" id="kpis"></div>
+
+  <!-- ===== Mission + Roadmap / Team ===== -->
+  <div class="grid2">
+    <div>
+      <div class="card mission">
+        <h2><span class="ic">🧭</span> Mission &amp; périmètre</h2>
+        <p>Construire l'outil qui permet à ton stagiaire de <b style="color:#fff">prospecter les TPE/commerces locaux qui n'ont pas de site web</b> (ou seulement un Facebook/Instagram) pour leur en vendre un.</p>
+        <div class="chips">
+          <span class="chip">📍 Département <b>Indre-et-Loire (37)</b></span>
+          <span class="chip">🚀 Vague 1 : <b>Tours + agglo</b></span>
+          <span class="chip">🗺️ Puis <b>272 communes</b></span>
+          <span class="chip">🏷️ Tri par <b>secteur</b> &amp; <b>ville</b></span>
+          <span class="chip">📊 CRM <b>Kanban</b> de prospection</span>
+          <span class="chip">🛰️ Collecte via <b>Google Places API</b></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🛣️</span> Roadmap de construction</h2>
+        <div id="roadmap"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2><span class="ic">🤖</span> L'équipe d'agents</h2>
+        <div class="team" id="team"></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">📦</span> Livrables</h2>
+        <ul class="deliv" id="deliv"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Stagiaire ===== -->
+  <div class="card">
+    <h2><span class="ic">🧑‍💼</span> Côté stagiaire — à préparer en parallèle</h2>
+    <ol class="todo">
+      <li>Créer un <b>compte Google Cloud</b> + activer la <b>Places API (New)</b> et générer une <b>clé API</b> (crédit gratuit ~200&nbsp;$/mois, large pour démarrer sur Tours).</li>
+      <li>Préparer un <b>pitch de 20 secondes</b> : « j'ai vu que vous n'avez pas de site, je crée des sites simples pour les commerces du coin… »</li>
+      <li>Définir l'<b>offre &amp; le prix</b> de départ (site vitrine simple) pour pouvoir répondre au téléphone.</li>
+      <li>Lire la <b>fiche RGPD/CNIL</b> que je fournis (prospection B2B = règles à respecter : email pro, opt-out, registre).</li>
+    </ol>
+    <div class="note">⚠️ Rappel honnêteté des données : Google fournit <b>nom / adresse / téléphone / présence d'un site</b>, mais <b>jamais l'email ni le nom du contact</b>. Ces 2 champs se remplissent à l'<b>enrichissement</b> (page Facebook, 1er appel) — l'outil prévoit la colonne, mais aucune donnée n'est inventée.</div>
+  </div>
+
+  <div class="foot">
+    War Room autonome — partageable telle quelle (1 fichier <code>war-room.html</code>). Mise à jour par l'agent master au fil du projet.<br>
+    Dernière mise à jour du statut : <b id="updated">13 juin 2026</b>
+  </div>
+
+<script>
+/* =========================================================
+   STATUT DU PROJET  —  l'agent master édite cet objet
+   ========================================================= */
+const STATUS = {
+  updated: "13 juin 2026 · 18:00",
+  phases: [
+    { name:"Cadrage & specs (équipe d'agents)", desc:"6 spécialistes en parallèle → blueprint consolidé", pct:45, state:"run", icon:"🧠" },
+    { name:"War Room (ce tableau de bord)",       desc:"Cockpit partageable de suivi du projet",            pct:100, state:"done", icon:"🛰️" },
+    { name:"Plateforme CRM (tableau + Kanban)",   desc:"Fichier HTML autonome, filtres secteur/ville, drag&drop", pct:0, state:"wait", icon:"🗂️" },
+    { name:"Script de collecte Google Places",     desc:"Balayage des communes du 37, détection « sans site »", pct:0, state:"wait", icon:"🛰️" },
+    { name:"Réconciliation & contrôle qualité",    desc:"Dédup, normalisation tél/adresse, zéro faux lead",   pct:0, state:"wait", icon:"🧪" },
+    { name:"Revue pro + fiche RGPD + prise en main",desc:"Relecture experte, conformité, guide stagiaire",     pct:0, state:"wait", icon:"✅" },
+  ],
+  team: [
+    { nm:"Master (orchestrateur)", rl:"Pilote l'équipe, code et intègre", av:"🎛️", state:"run" },
+    { nm:"UX/UI Engineer",         rl:"Ergonomie tableau + Kanban",        av:"🎨", state:"run" },
+    { nm:"Designer",               rl:"Design system, identité visuelle",  av:"🖌️", state:"run" },
+    { nm:"Backend / Data Architect",rl:"Modèle de données, schéma CSV",    av:"🧱", state:"run" },
+    { nm:"Expert Prospection B2B", rl:"Étapes Kanban, RGPD, séquence d'appel", av:"📣", state:"run" },
+    { nm:"Spécialiste Google Places",rl:"Architecture du script de collecte", av:"🛰️", state:"run" },
+    { nm:"Data Réconciliateur",    rl:"Dédup, qualité, zéro doublon",      av:"🧪", state:"run" },
+  ],
+  deliverables: [
+    { t:"War Room de suivi", s:"Ce tableau de bord, partageable", state:"done", link:null },
+    { t:"Specs & blueprint", s:"Décisions techniques verrouillées", state:"run", link:null },
+    { t:"CRM — Tableau + Kanban", s:"crm.html (à venir)", state:"wait", link:null },
+    { t:"Script collecte Google Places", s:"collecte-places.js (à venir)", state:"wait", link:null },
+    { t:"Fiche RGPD + guide de prise en main", s:"pour le stagiaire (à venir)", state:"wait", link:null },
+  ],
+  scope: { communesTotal: 272, vague1: "Tours + agglo" }
+};
+
+/* =========================================================
+   RENDU
+   ========================================================= */
+const lib = {
+  badge:{done:["b-done","Terminé"],run:["b-run","En cours"],wait:["b-wait","En attente"]},
+  sdot:{done:"s-done",run:"s-run",wait:"s-wait"}
+};
+
+function overall(){
+  // moyenne pondérée simple sur les phases
+  const t = STATUS.phases.reduce((a,p)=>a+p.pct,0);
+  return Math.round(t / STATUS.phases.length);
+}
+
+function renderKPIs(){
+  const pct = overall();
+  const current = STATUS.phases.find(p=>p.state==="run");
+  const ready = STATUS.deliverables.filter(d=>d.state==="done").length;
+  const total = STATUS.deliverables.length;
+  const C=2*Math.PI*26, off=C*(1-pct/100);
+  const k = [
+    { label:"Avancement global", val:pct+"%", hint:"sur l'ensemble du projet", ring:`
+      <svg class="gauge" width="64" height="64" viewBox="0 0 64 64">
+        <defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+        <circle class="track" cx="32" cy="32" r="26" fill="none" stroke-width="7"/>
+        <circle class="fill" cx="32" cy="32" r="26" fill="none" stroke-width="7"
+          stroke-dasharray="${C}" stroke-dashoffset="${off}"/>
+      </svg>` },
+    { label:"Phase en cours", val:current?current.icon:"✅", hint:current?current.name:"Toutes terminées" },
+    { label:"Livrables prêts", val:ready+"/"+total, hint:"fichiers finalisés" },
+    { label:"Périmètre", val:STATUS.scope.communesTotal, hint:"communes du 37 · démarrage "+STATUS.scope.vague1 },
+  ];
+  document.getElementById("kpis").innerHTML = k.map(x=>`
+    <div class="kpi">
+      ${x.ring?`<div class="ring">${x.ring}</div>`:""}
+      <div class="label">${x.label}</div>
+      <div class="val">${x.val}</div>
+      <div class="hint">${x.hint}</div>
+    </div>`).join("");
+}
+
+function renderRoadmap(){
+  document.getElementById("roadmap").innerHTML = STATUS.phases.map(p=>{
+    const [bc,bt]=lib.badge[p.state];
+    return `<div class="phase">
+      <div class="marker">${p.icon}</div>
+      <div class="body">
+        <div class="row"><span class="name">${p.name}</span><span class="badge ${bc}">${bt}</span></div>
+        <div class="desc">${p.desc}</div>
+        <div class="bar"><i style="width:${p.pct}%"></i></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderTeam(){
+  document.getElementById("team").innerHTML = STATUS.team.map(a=>`
+    <div class="agent">
+      <div class="av">${a.av}</div>
+      <div>
+        <div class="nm">${a.nm}</div>
+        <div class="rl">${a.rl}</div>
+        <div class="st"><span class="sdot ${lib.sdot[a.state]}"></span>${lib.badge[a.state][1]}</div>
+      </div>
+    </div>`).join("");
+}
+
+function renderDeliv(){
+  document.getElementById("deliv").innerHTML = STATUS.deliverables.map(d=>{
+    const cls = d.state==="done"?"done":d.state==="run"?"run":"";
+    const ic = d.state==="done"?"✓":d.state==="run"?"…":"○";
+    const title = d.link?`<a href="${d.link}">${d.t} ↗</a>`:d.t;
+    return `<li><div class="check ${cls}">${ic}</div>
+      <div class="t"><b>${title}</b><span>${d.s}</span></div></li>`;
+  }).join("");
+}
+
+function tick(){
+  const d=new Date();
+  document.getElementById("clock").textContent = d.toLocaleTimeString("fr-FR");
+}
+
+document.getElementById("updated").textContent = STATUS.updated;
+renderKPIs(); renderRoadmap(); renderTeam(); renderDeliv();
+tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
