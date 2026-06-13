@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Prospection — Indre-et-Loire (37)</title>
+<style>
+  :root{
+    --bg:#F7F8FA; --surface:#FFFFFF; --surface-2:#F1F3F7;
+    --border:#E4E7EC; --border-strong:#D0D5DD;
+    --text-main:#1A2233; --text-muted:#667085; --text-faint:#98A2B3;
+    --primary:#4F46E5; --primary-hover:#4338CA; --primary-soft:#EEF0FF;
+    --accent:#F59E0B; --accent-soft:#FEF3E2;
+    --success:#16A34A; --success-soft:#E7F6EC;
+    --warning:#D97706; --warning-soft:#FEF1DC;
+    --danger:#DC2626; --danger-soft:#FDECEC;
+    --info:#0EA5E9; --info-soft:#E5F5FD;
+    --r-sm:6px; --r-md:8px; --r-lg:12px; --r-full:999px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Segoe UI Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text-main);font-family:var(--font);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  input,select,textarea{font-family:inherit;font-size:14px;color:var(--text-main)}
+  ::placeholder{color:var(--text-muted)}
+
+  /* ===== Header ===== */
+  .appbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:30}
+  .appbar .logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,var(--primary),#7c3aed);color:#fff}
+  .appbar h1{font-size:16px;font-weight:700}
+  .appbar h1 small{display:block;font-size:11.5px;font-weight:500;color:var(--text-muted)}
+  .appbar .spacer{flex:1}
+  .rgpd-link{font-size:12px;color:var(--text-muted);background:none;border:1px solid var(--border);padding:7px 11px;border-radius:var(--r-md)}
+  .rgpd-link:hover{background:var(--surface-2)}
+
+  /* ===== Stats ===== */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 20px 4px}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px;display:flex;gap:12px;align-items:center}
+  .stat .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex:0 0 auto}
+  .stat .num{font-size:22px;font-weight:700;line-height:1}
+  .stat .lab{font-size:12px;color:var(--text-muted);margin-top:3px}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+  /* ===== Toolbar ===== */
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 20px}
+  .search{position:relative;flex:1;min-width:200px}
+  .search input{width:100%;height:36px;padding:0 12px 0 34px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface)}
+  .search input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.18)}
+  .search .loupe{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-faint)}
+  select.flt{height:36px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface);padding:0 10px;max-width:190px}
+  select.flt:focus{outline:none;border-color:var(--primary)}
+  .chkwrap{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);height:36px;padding:0 12px;border-radius:var(--r-md)}
+  .btn{height:36px;padding:0 14px;border-radius:var(--r-md);font-size:14px;font-weight:600;border:1px solid transparent;display:inline-flex;align-items:center;gap:7px}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-hover)}
+  .btn-sec{background:var(--surface);border-color:var(--border-strong);color:var(--text-main)}
+  .btn-sec:hover{background:var(--surface-2)}
+  .seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:3px}
+  .seg button{height:30px;padding:0 14px;border:none;background:none;border-radius:6px;font-size:13px;font-weight:600;color:var(--text-muted)}
+  .seg button.on{background:var(--surface);color:var(--primary);box-shadow:0 1px 2px rgba(16,24,40,.08)}
+
+  .wrap{padding:0 20px 40px}
+
+  /* ===== Table ===== */
+  .tablecard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);padding:11px 14px;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+  thead th .chev{color:var(--text-faint);font-size:10px}
+  tbody td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:var(--surface-2)}
+  .nom{font-weight:600}
+  .sub{font-size:12px;color:var(--text-muted)}
+  .tel{font-family:var(--mono);font-size:13px;white-space:nowrap}
+  .muted-cell{color:var(--text-faint)}
+
+  /* badges */
+  .badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:var(--r-full);font-size:12px;font-weight:500;white-space:nowrap}
+  .b-stage{color:#fff}
+  .pill-web{font-size:11px;padding:2px 8px;border-radius:var(--r-full);font-weight:600}
+  .web-AUCUN{background:var(--danger-soft);color:var(--danger)}
+  .web-Facebook{background:var(--info-soft);color:#1877F2}
+  .web-Instagram{background:#FCE7F3;color:#C026A6}
+  .web-FBIG{background:var(--accent-soft);color:var(--accent)}
+  .enrich{background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:600;padding:2px 7px;border-radius:var(--r-full)}
+  .score{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .sc-Chaud{background:var(--danger)} .sc-Tiède{background:var(--accent)} .sc-Froid{background:var(--info)}
+  .relance-due{color:var(--danger);font-weight:600}
+
+  /* ===== Kanban ===== */
+  .kanban{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
+  .kcol{flex:0 0 286px;border-radius:var(--r-lg);padding:10px;min-height:140px}
+  .kcol .khead{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:2px 4px}
+  .kcol .kdot{width:10px;height:10px;border-radius:50%}
+  .kcol .ktitle{font-size:13.5px;font-weight:600}
+  .kcol .kcount{margin-left:auto;font-size:11px;font-weight:700;background:#fff;border-radius:var(--r-full);padding:1px 9px;border:1px solid var(--border)}
+  .kcard{background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:var(--r-md);padding:10px 11px;margin-bottom:9px;box-shadow:0 1px 2px rgba(16,24,40,.06);cursor:grab}
+  .kcard:hover{box-shadow:0 4px 12px rgba(16,24,40,.10);transform:translateY(-1px)}
+  .kcard.dragging{opacity:.5}
+  .kcard .kn{font-weight:600;font-size:13.5px}
+  .kcard .km{font-size:12px;color:var(--text-muted);margin:2px 0 6px}
+  .kcard .kr{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .kcol.dragover{outline:2px dashed currentColor;outline-offset:-4px}
+
+  /* empty state */
+  .empty{background:var(--surface);border:1px dashed var(--border-strong);border-radius:var(--r-lg);padding:48px 24px;text-align:center;color:var(--text-muted)}
+  .empty h3{color:var(--text-main);font-size:18px;margin-bottom:8px}
+  .empty p{max-width:480px;margin:0 auto 18px}
+  .empty .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+  /* ===== Modal ===== */
+  .overlay{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 16px;overflow:auto}
+  .overlay.open{display:flex}
+  .modal{background:var(--surface);border-radius:var(--r-lg);width:100%;max-width:680px;box-shadow:0 20px 60px rgba(16,24,40,.3)}
+  .modal header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0}
+  .modal header h2{font-size:16px;flex:1}
+  .iconbtn{background:none;border:none;font-size:20px;color:var(--text-muted);width:32px;height:32px;border-radius:8px}
+  .iconbtn:hover{background:var(--surface-2)}
+  .form{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form .full{grid-column:1/3}
+  .fg label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px}
+  .fg input,.fg select,.fg textarea{width:100%;height:36px;border:1px solid var(--border);border-radius:var(--r-sm);padding:0 11px;background:var(--surface)}
+  .fg textarea{height:74px;padding:8px 11px;resize:vertical}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.18)}
+  .sectionlabel{grid-column:1/3;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-top:4px;border-top:1px solid var(--border);padding-top:12px}
+  .sectionlabel:first-child{border-top:none;margin-top:0;padding-top:0}
+  .modal footer{display:flex;gap:10px;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--surface);border-radius:0 0 var(--r-lg) var(--r-lg)}
+  .optout{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--text-main)}
+  .hint{font-size:11.5px;color:var(--text-faint);margin-top:4px}
+
+  .rgpd-body{padding:18px 22px;font-size:13.5px;color:var(--text-main);line-height:1.55}
+  .rgpd-body h3{font-size:14px;margin:14px 0 5px;color:var(--primary)}
+  .rgpd-body ul{margin:0 0 6px 18px}
+  .rgpd-body li{margin-bottom:4px}
+  .note{background:var(--accent-soft);border:1px solid #f5d9a8;border-radius:var(--r-md);padding:11px 13px;color:#8a5a00;font-size:12.5px;margin:10px 20px}
+
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text-main);color:#fff;padding:10px 18px;border-radius:var(--r-full);font-size:13px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="appbar">
+    <div class="logo">🎯</div>
+    <h1>CRM Prospection <small>Indre-et-Loire (37) · entreprises sans site web</small></h1>
+    <div class="spacer"></div>
+    <a class="rgpd-link" href="https://jeromeibiza.github.io/prospection-37/demarrage.html" style="text-decoration:none">✅ Checklist démarrage</a>
+    <button class="rgpd-link" onclick="openRgpd()">⚖️ Mentions RGPD</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats" id="stats"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search">
+      <span class="loupe">🔎</span>
+      <input id="q" placeholder="Rechercher (nom, ville, téléphone…)" oninput="render()">
+    </div>
+    <select class="flt" id="fSecteur" onchange="render()"><option value="">Tous secteurs</option></select>
+    <select class="flt" id="fVille" onchange="render()"><option value="">Toutes villes</option></select>
+    <select class="flt" id="fStage" onchange="render()"><option value="">Toutes étapes</option></select>
+    <label class="chkwrap"><input type="checkbox" id="fRelance" onchange="render()"> À relancer</label>
+    <label class="chkwrap"><input type="checkbox" id="fOptout" checked onchange="render()"> Masquer opt-out</label>
+    <div class="seg" id="viewSeg">
+      <button class="on" data-v="table" onclick="setView('table')">🗂️ Tableau</button>
+      <button data-v="kanban" onclick="setView('kanban')">📋 Kanban</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-sec" onclick="document.getElementById('csvFile').click()">⬆️ Importer CSV</button>
+    <input type="file" id="csvFile" accept=".csv,text/csv" class="hidden" onchange="importCSV(event)">
+    <button class="btn btn-sec" onclick="exportCSV()">⬇️ Exporter</button>
+    <button class="btn btn-primary" onclick="openEdit(null)">＋ Ajouter</button>
+  </div>
+
+  <div class="wrap">
+    <div id="emptyState" class="empty hidden">
+      <h3>Aucune entreprise pour l'instant 📭</h3>
+      <p>Importe le CSV produit par le script de collecte Google Places (Vague&nbsp;1 = Tours), ou ajoute une fiche à la main. Tu peux aussi charger des exemples pour voir comment ça marche.</p>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="document.getElementById('csvFile').click()">⬆️ Importer un CSV</button>
+        <button class="btn btn-sec" onclick="openEdit(null)">＋ Ajouter une fiche</button>
+        <button class="btn btn-sec" onclick="loadDemo()">✨ Charger 6 exemples (fictifs)</button>
+      </div>
+    </div>
+
+    <div id="tableView" class="tablecard hidden">
+      <table>
+        <thead><tr id="thead"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+
+    <div id="kanbanView" class="kanban hidden"></div>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div class="overlay" id="editOverlay">
+    <div class="modal">
+      <header>
+        <h2 id="editTitle">Nouvelle entreprise</h2>
+        <button class="iconbtn" onclick="closeEdit()">✕</button>
+      </header>
+      <div class="form" id="editForm"><!-- injected --></div>
+      <footer>
+        <button class="btn btn-sec" style="color:var(--danger);border-color:var(--danger-soft)" id="delBtn" onclick="deleteCurrent()">🗑️ Supprimer</button>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-sec" onclick="closeEdit()">Annuler</button>
+          <button class="btn btn-primary" onclick="saveEdit()">💾 Enregistrer</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- RGPD MODAL -->
+  <div class="overlay" id="rgpdOverlay">
+    <div class="modal">
+      <header><h2>⚖️ Prospection B2B — règles RGPD / CNIL</h2><button class="iconbtn" onclick="closeRgpd()">✕</button></header>
+      <div class="rgpd-body">
+        <p>Base légale = <b>intérêt légitime</b> (pas besoin de consentement pour démarcher un pro), mais ces règles sont obligatoires&nbsp;:</p>
+        <h3>📞 Téléphone</h3>
+        <ul>
+          <li>Horaires légaux : <b>lun→ven, 10h-13h & 14h-20h</b>. Interdit week-ends & jours fériés.</li>
+          <li>Max <b>4 sollicitations / 30 jours</b> vers le même prospect (compteur « nb relances »).</li>
+          <li>Utiliser le n° <b>pro de l'établissement</b> (celui de Google), pas un mobile perso.</li>
+        </ul>
+        <h3>✉️ Email pro</h3>
+        <ul>
+          <li>Autorisé sans consentement si le message est lié à l'activité du pro (vendre un site à un commerçant = OK).</li>
+          <li><b>Lien de désinscription obligatoire</b> dans chaque email + identité claire de l'expéditeur.</li>
+        </ul>
+        <h3>🚫 Opt-out (le plus important)</h3>
+        <ul>
+          <li>Une demande de ne plus être contacté = <b>respectée immédiatement et définitivement</b>.</li>
+          <li>Coche « Opt-out » sur la fiche → elle est masquée et ne doit jamais être recontactée.</li>
+        </ul>
+        <h3>🗂️ Traçabilité & conservation</h3>
+        <ul>
+          <li>Pouvoir dire d'où viennent les données (« coordonnées publiques / Google ») et pourquoi.</li>
+          <li>Tenir un <b>registre des traitements</b> (1 tableur suffit).</li>
+          <li>Supprimer les prospects non convertis après <b>3 ans</b> sans contact.</li>
+        </ul>
+        <div class="note">ℹ️ Google fournit nom / adresse / téléphone / présence d'un site — <b>jamais l'email ni le nom du gérant</b>. Ces champs « À ENRICHIR » se remplissent à la main (page Facebook, 1er appel). Aucune donnée n'est inventée.</div>
+      </div>
+      <footer><div></div><button class="btn btn-primary" onclick="closeRgpd()">Compris</button></footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CRM PROSPECTION 37 — vanilla JS, données 100% locales (localStorage)
+   ============================================================ */
+const KEY = "crm_prospection_37_v1";
+
+const STAGES = [
+  { name:"À qualifier",          color:"#64748B", soft:"#F1F5F9" },
+  { name:"Qualifié",             color:"#0EA5E9", soft:"#E8F6FD" },
+  { name:"1er contact",          color:"#6366F1", soft:"#ECEDFE" },
+  { name:"Relance",              color:"#F59E0B", soft:"#FEF4E3" },
+  { name:"RDV / Démo",           color:"#8B5CF6", soft:"#F2ECFE" },
+  { name:"Devis envoyé",         color:"#4F46E5", soft:"#ECEDFE" },
+  { name:"Gagné (client)",       color:"#16A34A", soft:"#E7F6EC" },
+  { name:"Perdu / Pas intéressé",color:"#DC2626", soft:"#FDECEC" },
+];
+const stageMeta = n => STAGES.find(s=>s.name===n) || STAGES[0];
+
+// Schéma CSV canonique — IDENTIQUE à la sortie du script de collecte Google Places
+const COLUMNS = ["secteur","ville","nom_entreprise","personne_contact","telephone","email","adresse",
+  "presence_web","url_social","note_google","nb_avis","etape_kanban","score_interet","canal_prefere",
+  "date_dernier_contact","date_relance_prevue","nb_relances","motif_perte","notes_qualif","source",
+  "date_creation","opt_out","lien_maquette","google_maps_url","place_id"];
+
+const SCORES = ["","Chaud","Tiède","Froid"];
+const WEB = ["AUCUN","Facebook","Instagram","FB+IG"];
+const CANAUX = ["","Téléphone","Email","Visite","WhatsApp"];
+const MOTIFS = ["","Prix","Pas le bon interlocuteur","A déjà un site","Pas intéressé","Injoignable","Fermé / cessé"];
+
+let DATA = [];
+let view = "table";
+let sortKey = "nom_entreprise", sortDir = 1;
+let currentId = null;
+
+/* ---------- persistence ---------- */
+function load(){ try{ DATA = JSON.parse(localStorage.getItem(KEY)) || []; }catch(e){ DATA=[]; } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(DATA)); }
+function uid(){ return "L"+Math.random().toString(36).slice(2,9)+(DATA.length); }
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+
+function blank(){
+  const o={}; COLUMNS.forEach(c=>o[c]="");
+  o.id=uid(); o.etape_kanban="À qualifier"; o.presence_web="AUCUN";
+  o.source="Saisie manuelle"; o.date_creation=todayISO(); o.opt_out="non"; o.nb_relances="0";
+  return o;
+}
+
+/* ---------- helpers ---------- */
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function isEnrich(r){ return !r.email || !r.personne_contact; }
+function relanceDue(r){
+  if(!r.date_relance_prevue) return false;
+  if(["Gagné (client)","Perdu / Pas intéressé"].includes(r.etape_kanban)) return false;
+  return r.date_relance_prevue <= todayISO();
+}
+function webPill(v){
+  const map={"AUCUN":["web-AUCUN","Aucun site"],"Facebook":["web-Facebook","Facebook"],"Instagram":["web-Instagram","Instagram"],"FB+IG":["web-FBIG","FB+IG"]};
+  const [c,l]=map[v]||map["AUCUN"]; return `<span class="pill-web ${c}">${l}</span>`;
+}
+
+/* ---------- filtering ---------- */
+function filtered(){
+  const q=document.getElementById("q").value.trim().toLowerCase();
+  const fs=document.getElementById("fSecteur").value;
+  const fv=document.getElementById("fVille").value;
+  const fst=document.getElementById("fStage").value;
+  const onlyRel=document.getElementById("fRelance").checked;
+  const hideOpt=document.getElementById("fOptout").checked;
+  return DATA.filter(r=>{
+    if(hideOpt && r.opt_out==="oui") return false;
+    if(fs && r.secteur!==fs) return false;
+    if(fv && r.ville!==fv) return false;
+    if(fst && r.etape_kanban!==fst) return false;
+    if(onlyRel && !relanceDue(r)) return false;
+    if(q){
+      const blob=(r.nom_entreprise+" "+r.ville+" "+r.telephone+" "+r.secteur+" "+r.personne_contact+" "+r.email).toLowerCase();
+      if(!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+/* ---------- render ---------- */
+function refreshFilters(){
+  const secteurs=[...new Set(DATA.map(r=>r.secteur).filter(Boolean))].sort();
+  const villes=[...new Set(DATA.map(r=>r.ville).filter(Boolean))].sort();
+  fillSelect("fSecteur",secteurs,"Tous secteurs");
+  fillSelect("fVille",villes,"Toutes villes");
+  fillSelect("fStage",STAGES.map(s=>s.name),"Toutes étapes");
+}
+function fillSelect(id,arr,allLabel){
+  const el=document.getElementById(id); const cur=el.value;
+  el.innerHTML=`<option value="">${allLabel}</option>`+arr.map(v=>`<option ${v===cur?"selected":""}>${esc(v)}</option>`).join("");
+}
+
+function render(){
+  const rows=filtered();
+  renderStats();
+  document.getElementById("emptyState").classList.toggle("hidden", DATA.length>0);
+  document.getElementById("tableView").classList.toggle("hidden", view!=="table"||DATA.length===0);
+  document.getElementById("kanbanView").classList.toggle("hidden", view!=="kanban"||DATA.length===0);
+  if(DATA.length===0) return;
+  if(view==="table") renderTable(rows); else renderKanban(rows);
+}
+
+function renderStats(){
+  const total=DATA.length;
+  const rel=DATA.filter(relanceDue).length;
+  const enrich=DATA.filter(r=>r.opt_out!=="oui" && isEnrich(r)).length;
+  const won=DATA.filter(r=>r.etape_kanban==="Gagné (client)").length;
+  const cards=[
+    {n:total,l:"Entreprises au total",ic:"🏢",bg:"var(--primary-soft)"},
+    {n:rel,l:"À relancer aujourd'hui",ic:"⏰",bg:"var(--warning-soft)"},
+    {n:enrich,l:"À enrichir (email/contact)",ic:"✏️",bg:"var(--accent-soft)"},
+    {n:won,l:"Clients gagnés 🎉",ic:"✅",bg:"var(--success-soft)"},
+  ];
+  document.getElementById("stats").innerHTML=cards.map(c=>`
+    <div class="stat"><div class="ic" style="background:${c.bg}">${c.ic}</div>
+    <div><div class="num">${c.n}</div><div class="lab">${c.l}</div></div></div>`).join("");
+}
+
+const COLS_VIEW=[
+  {k:"nom_entreprise",label:"Entreprise"},
+  {k:"secteur",label:"Secteur"},
+  {k:"ville",label:"Ville"},
+  {k:"telephone",label:"Téléphone"},
+  {k:"presence_web",label:"Web"},
+  {k:"etape_kanban",label:"Étape"},
+  {k:"score_interet",label:"Score"},
+  {k:"date_relance_prevue",label:"Relance"},
+];
+function renderTable(rows){
+  document.getElementById("thead").innerHTML=COLS_VIEW.map(c=>
+    `<th onclick="sortBy('${c.k}')">${c.label} <span class="chev">${sortKey===c.k?(sortDir>0?"▲":"▼"):"↕"}</span></th>`).join("");
+  rows.sort((a,b)=>{
+    const x=(a[sortKey]||"").toString().toLowerCase(), y=(b[sortKey]||"").toString().toLowerCase();
+    return x<y?-sortDir:x>y?sortDir:0;
+  });
+  document.getElementById("tbody").innerHTML=rows.map(r=>{
+    const sm=stageMeta(r.etape_kanban);
+    return `<tr onclick="openEdit('${r.id}')">
+      <td><div class="nom">${esc(r.nom_entreprise)||"—"} ${isEnrich(r)?'<span class="enrich">à enrichir</span>':''}</div>
+          <div class="sub">${esc(r.personne_contact)|| (r.email?esc(r.email):'<span class="muted-cell">contact à trouver</span>')}</div></td>
+      <td>${esc(r.secteur)||'<span class="muted-cell">—</span>'}</td>
+      <td>${esc(r.ville)||'<span class="muted-cell">—</span>'}</td>
+      <td class="tel">${esc(r.telephone)||'<span class="muted-cell">—</span>'}</td>
+      <td>${webPill(r.presence_web)}</td>
+      <td><span class="badge b-stage" style="background:${sm.color}">${esc(r.etape_kanban)}</span></td>
+      <td>${r.score_interet?`<span class="score sc-${r.score_interet}"></span>${esc(r.score_interet)}`:'<span class="muted-cell">—</span>'}</td>
+      <td class="${relanceDue(r)?'relance-due':''}">${esc(r.date_relance_prevue)|| '<span class="muted-cell">—</span>'}</td>
+    </tr>`;
+  }).join("");
+}
+function sortBy(k){ if(sortKey===k) sortDir*=-1; else {sortKey=k;sortDir=1;} render(); }
+
+function renderKanban(rows){
+  const cont=document.getElementById("kanbanView");
+  cont.innerHTML=STAGES.map(s=>{
+    const items=rows.filter(r=>r.etape_kanban===s.name);
+    return `<div class="kcol" style="background:${s.soft};color:${s.color}" data-stage="${esc(s.name)}"
+        ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="drop(event,'${esc(s.name)}')">
+      <div class="khead"><span class="kdot" style="background:${s.color}"></span>
+        <span class="ktitle" style="color:var(--text-main)">${esc(s.name)}</span>
+        <span class="kcount">${items.length}</span></div>
+      ${items.map(r=>`
+        <div class="kcard" draggable="true" style="border-left-color:${s.color}" data-id="${r.id}"
+          ondragstart="dragstart(event,'${r.id}')" ondragend="this.classList.remove('dragging')" onclick="openEdit('${r.id}')">
+          <div class="kn">${esc(r.nom_entreprise)||"—"}</div>
+          <div class="km">${esc(r.ville)||"?"} · ${esc(r.secteur)||"?"}</div>
+          <div class="kr">
+            ${webPill(r.presence_web)}
+            ${r.score_interet?`<span class="badge" style="background:var(--surface-2);color:var(--text-muted)"><span class="score sc-${r.score_interet}"></span>${esc(r.score_interet)}</span>`:''}
+            ${relanceDue(r)?'<span class="badge" style="background:var(--danger-soft);color:var(--danger)">⏰ relance</span>':''}
+            ${isEnrich(r)?'<span class="enrich">à enrichir</span>':''}
+          </div>
+        </div>`).join("")}
+    </div>`;
+  }).join("");
+}
+let dragId=null;
+function dragstart(e,id){ dragId=id; e.currentTarget.classList.add("dragging"); }
+function drop(e,stage){
+  e.preventDefault();
+  document.querySelectorAll(".kcol").forEach(c=>c.classList.remove("dragover"));
+  const r=DATA.find(x=>x.id===dragId); if(r){ r.etape_kanban=stage; save(); render(); toast("Déplacé vers « "+stage+" »"); }
+  dragId=null;
+}
+
+/* ---------- edit modal ---------- */
+function field(c,labels){
+  const r=current;
+  const L=labels[c]||c;
+  if(c==="etape_kanban") return sel(c,L,STAGES.map(s=>s.name));
+  if(c==="score_interet") return sel(c,L,SCORES);
+  if(c==="presence_web") return sel(c,L,WEB);
+  if(c==="canal_prefere") return sel(c,L,CANAUX);
+  if(c==="motif_perte") return sel(c,L,MOTIFS);
+  if(c==="notes_qualif"||c==="adresse") return `<div class="fg ${c==='notes_qualif'?'full':''}"><label>${L}</label><textarea id="f_${c}">${esc(r[c])}</textarea></div>`;
+  const type=(c==="date_dernier_contact"||c==="date_relance_prevue")?"date":(c==="nb_relances"||c==="nb_avis")?"number":"text";
+  return `<div class="fg"><label>${L}</label><input id="f_${c}" type="${type}" value="${esc(r[c])}"></div>`;
+}
+function sel(c,L,opts){
+  return `<div class="fg"><label>${L}</label><select id="f_${c}">${opts.map(o=>`<option ${current[c]===o?"selected":""}>${esc(o)}</option>`).join("")}</select></div>`;
+}
+let current=null;
+function openEdit(id){
+  current = id ? {...DATA.find(r=>r.id===id)} : blank();
+  currentId = id;
+  document.getElementById("editTitle").textContent = id ? "Modifier l'entreprise" : "Nouvelle entreprise";
+  document.getElementById("delBtn").style.display = id ? "" : "none";
+  const labels={secteur:"Secteur d'activité",ville:"Ville / Commune",nom_entreprise:"Nom de l'entreprise",
+    personne_contact:"Personne à contacter",telephone:"Téléphone",email:"Email",adresse:"Adresse",
+    presence_web:"Présence web",url_social:"Lien Facebook / Instagram",note_google:"Note Google",nb_avis:"Nb d'avis",
+    etape_kanban:"Étape de prospection",score_interet:"Score d'intérêt",canal_prefere:"Canal préféré",
+    date_dernier_contact:"Dernier contact",date_relance_prevue:"Relance prévue le",nb_relances:"Nb de relances",
+    motif_perte:"Motif de perte",notes_qualif:"Notes de qualif",lien_maquette:"Lien maquette envoyée",
+    source:"Source",google_maps_url:"Lien Google Maps",place_id:"Place ID",date_creation:"Créé le"};
+  const groups=[
+    ["🏷️ Identité",["secteur","nom_entreprise","ville","adresse"]],
+    ["📇 Contact",["personne_contact","telephone","email","canal_prefere"]],
+    ["🌐 Présence web",["presence_web","url_social","note_google","nb_avis"]],
+    ["📈 Suivi prospection",["etape_kanban","score_interet","date_dernier_contact","date_relance_prevue","nb_relances","motif_perte","lien_maquette"]],
+    ["📝 Notes",["notes_qualif"]],
+  ];
+  let html=groups.map(([t,cols])=>`<div class="sectionlabel">${t}</div>`+cols.map(c=>field(c,labels)).join("")).join("");
+  html+=`<div class="sectionlabel">⚖️ RGPD & méta</div>
+    <div class="fg full"><label class="optout"><input type="checkbox" id="f_opt_out" ${current.opt_out==="oui"?"checked":""}> Opt-out — ne plus jamais contacter (masque la fiche)</label><div class="hint">Coche si l'entreprise a demandé à ne plus être démarchée. Obligatoire RGPD.</div></div>
+    ${field("source",labels)}${field("date_creation",labels)}`;
+  document.getElementById("editForm").innerHTML=html;
+  document.getElementById("editOverlay").classList.add("open");
+}
+function closeEdit(){ document.getElementById("editOverlay").classList.remove("open"); }
+function saveEdit(){
+  const o = currentId ? DATA.find(r=>r.id===currentId) : blank();
+  COLUMNS.forEach(c=>{
+    const el=document.getElementById("f_"+c);
+    if(el && c!=="opt_out") o[c]=el.value;
+  });
+  o.opt_out = document.getElementById("f_opt_out").checked ? "oui":"non";
+  if(!currentId){ o.id=uid(); DATA.push(o); }
+  save(); closeEdit(); refreshFilters(); render(); toast("Fiche enregistrée ✅");
+}
+function deleteCurrent(){
+  if(!currentId) return;
+  if(!confirm("Supprimer définitivement cette entreprise ?")) return;
+  DATA=DATA.filter(r=>r.id!==currentId); save(); closeEdit(); refreshFilters(); render(); toast("Fiche supprimée");
+}
+
+/* ---------- CSV ---------- */
+function csvParse(text){
+  const rows=[]; let i=0,f="",row=[],inq=false; text=text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+  while(i<text.length){
+    const c=text[i];
+    if(inq){ if(c=='"'){ if(text[i+1]=='"'){f+='"';i+=2;continue;} inq=false;i++;continue;} f+=c;i++; }
+    else{ if(c=='"'){inq=true;i++;} else if(c==','){row.push(f);f="";i++;} else if(c=='\n'){row.push(f);rows.push(row);row=[];f="";i++;} else {f+=c;i++;} }
+  }
+  if(f!==""||row.length){ row.push(f); rows.push(row); }
+  return rows.filter(r=>r.length>1||r[0]!=="");
+}
+function importCSV(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const rows=csvParse(e.target.result);
+    if(!rows.length){ toast("CSV vide"); return; }
+    const header=rows[0].map(h=>h.trim());
+    let added=0,merged=0;
+    for(let r=1;r<rows.length;r++){
+      const obj=blank();
+      header.forEach((h,idx)=>{ if(COLUMNS.includes(h)) obj[h]=(rows[r][idx]||"").trim(); });
+      if(!obj.nom_entreprise && !obj.telephone) continue;
+      // dédup: place_id, sinon nom+ville
+      const dupe=DATA.find(x=>(obj.place_id && x.place_id===obj.place_id) ||
+        (x.nom_entreprise.toLowerCase()===obj.nom_entreprise.toLowerCase() && x.ville.toLowerCase()===obj.ville.toLowerCase() && obj.nom_entreprise));
+      if(dupe){ COLUMNS.forEach(c=>{ if(!dupe[c] && obj[c]) dupe[c]=obj[c]; }); merged++; }
+      else { if(!obj.etape_kanban) obj.etape_kanban="À qualifier"; obj.id=uid(); DATA.push(obj); added++; }
+    }
+    ev.target.value="";
+    save(); refreshFilters(); render();
+    toast(`Import : ${added} ajoutée(s), ${merged} fusionnée(s)`);
+  };
+  reader.readAsText(file,"UTF-8");
+}
+function csvCell(v){ v=(v==null?"":String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function exportCSV(){
+  const lines=[COLUMNS.join(",")];
+  DATA.forEach(r=>lines.push(COLUMNS.map(c=>csvCell(r[c])).join(",")));
+  const blob=new Blob(["﻿"+lines.join("\n")],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="prospection_37_export.csv"; a.click();
+  toast("Export CSV généré ⬇️");
+}
+
+/* ---------- demo (fictif, clairement marqué) ---------- */
+function loadDemo(){
+  const d=[
+    ["Coiffure","Tours","Salon Démo Coiffure (exemple)","","02 47 00 00 01","","12 rue Exemple, 37000 Tours","Facebook","https://facebook.com/exemple","4.6","83","À qualifier","Tiède","Téléphone","","","0","","Bons avis, pas de site","Démo",""],
+    ["Restauration","Tours","Resto Exemple (démo)","","02 47 00 00 02","","5 place Fictive, 37000 Tours","Instagram","https://instagram.com/exemple","4.8","210","Qualifié","Chaud","Visite","","2026-06-16","0","","Gérant ouvert le matin","Démo",""],
+    ["Plomberie","Joué-lès-Tours","Plombier Démo SARL (exemple)","Jean Exemple","02 47 00 00 03","contact@exemple-demo.fr","8 av. Test, 37300 Joué-lès-Tours","AUCUN","","4.2","17","1er contact","Tiède","Téléphone","2026-06-12","2026-06-15","1","","Rappeler jeudi","Démo",""],
+    ["Esthétique","Saint-Cyr-sur-Loire","Institut Exemple (démo)","","02 47 00 00 04","","3 rue Démo, 37540","FB+IG","https://facebook.com/exemple","4.9","64","Relance","Chaud","WhatsApp","2026-06-10","2026-06-13","2","","Maquette à envoyer","Démo",""],
+    ["Garage auto","Chambray-lès-Tours","Garage Fictif (exemple)","","02 47 00 00 05","","ZA Exemple, 37170","AUCUN","","4.1","39","RDV / Démo","Chaud","Téléphone","2026-06-11","","1","","RDV mardi 10h","Démo",""],
+    ["Fleuriste","Amboise","Fleurs Démo (exemple)","Marie Exemple","02 47 00 00 06","marie@exemple-demo.fr","2 quai Fictif, 37400 Amboise","Facebook","https://facebook.com/exemple","4.7","51","Gagné (client)","Chaud","Email","2026-06-05","","1","","Signé, site en cours","Démo",""],
+  ];
+  d.forEach(row=>{
+    const o=blank();
+    ["secteur","ville","nom_entreprise","personne_contact","telephone","email","adresse","presence_web","url_social","note_google","nb_avis","etape_kanban","score_interet","canal_prefere","date_dernier_contact","date_relance_prevue","nb_relances","motif_perte","notes_qualif","source"].forEach((c,i)=>o[c]=row[i]);
+    o.id=uid(); DATA.push(o);
+  });
+  save(); refreshFilters(); render(); toast("6 exemples fictifs chargés ✨ (à supprimer avant les vraies données)");
+}
+
+/* ---------- view + misc ---------- */
+function setView(v){
+  view=v;
+  document.querySelectorAll("#viewSeg button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  render();
+}
+function openRgpd(){ document.getElementById("rgpdOverlay").classList.add("open"); }
+function closeRgpd(){ document.getElementById("rgpdOverlay").classList.remove("open"); }
+let toastT;
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),2200); }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeEdit(); closeRgpd(); } });
+[...document.querySelectorAll(".overlay")].forEach(o=>o.addEventListener("mousedown",e=>{ if(e.target===o){ closeEdit(); closeRgpd(); }}));
+
+/* ---------- init ---------- */
+load(); refreshFilters(); render();
+</script>
+</body>
+</html>
